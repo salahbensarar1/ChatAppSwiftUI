@@ -1,4 +1,17 @@
 import SwiftUI
+import Firebase
+import FirebaseAuth
+
+class FirebaseManager: NSObject {
+    let auth: Auth
+    static let shared = FirebaseManager()
+    override init() {
+        FirebaseApp.configure()
+        self.auth = Auth.auth()
+        super.init()
+    }
+    
+}
 
 
 struct ContentView: View {
@@ -170,7 +183,10 @@ struct ContentView: View {
                                     .padding()
                                     .underline()
                             }
+                            
                         }
+                        Text(self.loginStatusMessage)
+                            .foregroundStyle(.red)
                             .padding()
                         
                      
@@ -195,10 +211,41 @@ struct ContentView: View {
             }
             
         }
+        .navigationViewStyle(StackNavigationViewStyle ())
         
     }
     private func handleAction(){
-        print(isLoginMode ? "Should Log into Firebase with existing credentials" : "Should create a new account")
+        if isLoginMode{
+            
+            loginUser()
+        }else{
+            CreateNewAccount()
+        }
+    }
+    @State var loginStatusMessage = " "
+    private func CreateNewAccount(){ //Create a brand new Firebase Account
+    
+        FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { result, error in
+            if let error {
+                print("Error creating a new user: \(error.localizedDescription)")
+                self.loginStatusMessage = "Error creating a new user: \(error)"
+                return
+            }
+            print("User created successfully: \(result?.user.uid ?? " ") ")
+            self.loginStatusMessage = "User created successfully: \(result?.user.uid ?? " ")"
+        } 
+    }
+    private func loginUser(){
+        FirebaseManager.shared.auth.signIn(withEmail: email, password: password){result, error in
+            if let error {
+                print("Error signing in: \(error.localizedDescription)")
+                self.loginStatusMessage = "Error signing in: \(error)"
+                return
+            }
+            print("User signed in successfully: \(result?.user.uid ?? " ") ")
+            self.loginStatusMessage = "User signed in successfully: \(result?.user.uid ?? " ")"
+            
+        }
     }
 }
 
