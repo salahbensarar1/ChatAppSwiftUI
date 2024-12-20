@@ -1,17 +1,22 @@
-//
-//  ChatAppApp.swift
-//  ChatApp
-//
-//  Created by Salah Ben Sarar on 2024. 11. 06..
-//
-
 import SwiftUI
+import FirebaseCore
 
 @main
 struct ChatAppApp: App {
+    @StateObject private var authenticationViewModel = AuthenticationViewModel()
+ 
+    // Initialize Firebase in the App's initializer
+    init() {
+        print("Configuring Firebase...")
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(authenticationViewModel) // Provide the AuthenticationViewModel
         }
     }
 }
+
+ 

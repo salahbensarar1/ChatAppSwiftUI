@@ -1,12 +1,17 @@
 import SwiftUI
+import FirebaseDatabase
 import Firebase
 import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
+import GoogleSignInSwift
+//Basically this is the login view  with some methods for sign In with google, Uploead pics to cloudinary and then save it to database
 
 class FirebaseManager: NSObject {
     let auth: Auth
     static let shared = FirebaseManager()
     override init() {
-        FirebaseApp.configure()
+        
         self.auth = Auth.auth()
         super.init()
     }
@@ -14,22 +19,33 @@ class FirebaseManager: NSObject {
 }
 
 
+
 struct ContentView: View {
+//********************************************************************************************************
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @State private var isLoginMode = false
+    @State private var showImagePicker = false
     @State private var email = ""
     @State private var password = ""
+    @State var shouldShowImagePicker = false
+    @Environment(\.dismiss) var dismiss
+//********************************************************************************************************
+
     
+    
+    
+
     var body: some View {
         NavigationView {
             ZStack {
                 
                 LinearGradient(gradient: Gradient(colors: [Color.white, Color.purple.opacity(1.2)]), startPoint: .trailing, endPoint: .bottomLeading)
                     .ignoresSafeArea()
-                ScrollView {
-                    VStack {
-                        Picker(selection: $isLoginMode, label: Text("Text Picker")) {
-                            Text("Login")
-                                .tag(true)
+                   ScrollView {
+                       VStack {
+                           Picker(selection: $isLoginMode, label: Text("Text Picker")) {
+                               Text("Login")
+                                   .tag(true)
                             Text("Create Account")
                                 .tag(false)
                                 
@@ -38,15 +54,28 @@ struct ContentView: View {
                         .pickerStyle(SegmentedPickerStyle())
                         .padding()
                         Button {
-                            
+                            isLoginMode ? nil : shouldShowImagePicker.toggle()
                         } label: {
-                            Image(systemName: isLoginMode ? "person.fill" : "person.fill.badge.plus")
-                                .font(.system(size: 72))
-                                .foregroundColor(.purple.opacity(1.2))
-                                .padding()
-                                .frame(height: 110)
-                                .scaleEffect(1.0)
-                                .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: 1.0)
+                            VStack{
+                                if let image = self.image {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 128,height: 128)
+                                        .cornerRadius(64)
+                                }else{
+                                    Image(systemName: isLoginMode ? "person.fill" : "person.fill.badge.plus")
+                                        .font(.system(size: 72)
+                                        )
+                                        .foregroundColor(.purple.opacity(1.2))
+                                        .padding()
+                                        .frame(height: 110)
+                                        .scaleEffect(1.0)
+                                        .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: 1.0)
+                                }
+                            }.overlay(RoundedRectangle(cornerRadius: 64)
+                                .stroke(.purple.opacity(0.5), lineWidth: 2))
+                           
                             
                         }
                         
@@ -82,7 +111,7 @@ struct ContentView: View {
                                     .resizable()
                                     .frame(width: 24, height: 24)
                             SecureField("Password", text: $password)
-                                .autocapitalization(.none)
+                               .autocapitalization(.none)
                                 
                             
                         }
@@ -129,45 +158,45 @@ struct ContentView: View {
                            }
                         .padding()
                         HStack(spacing: 31){
-                            Button(action: {
-                                print("Google Authentication")
-                            }){
+                            Button(action: {signInWithGoogle()}){
+                               
                                 Image("google_ic")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 24, height: 24)
+                                    .frame(width: 250, height: 24)
                             }
                             .padding(.vertical, 14)
                             .padding(.horizontal, 32)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                            Button(action: {
-                                print("Facebook Authentication")
-                            }){
-                                Image("facebook_ic")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 24, height: 24)
-                                    
-                                
-                            }
-                            .padding(.vertical, 14)
-                            .padding(.horizontal, 32)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            Button(action: {
-                                print("Apple Authentication")
-                            }){
-                                Image(systemName: "apple.logo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.black)
-                                    .frame(width: 24, height: 24)
-                            }
-                            .padding(.vertical, 14)
-                            .padding(.horizontal, 32)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
+//                            Button(action: {
+//                                print("Facebook Authentication")
+//                            }){
+//                                Image("facebook_ic")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 24, height: 24)
+//
+//
+//                            }
+//                            .padding(.vertical, 14)
+//                            .padding(.horizontal, 32)
+//                            .background(Color(.systemGray6))
+//                            .cornerRadius(8)
+//                            Button(action: {
+//                                print("Apple Authentication")
+//                            }){
+//                                Image(systemName: "apple.logo")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .foregroundColor(.black)
+//                                    .frame(width: 24, height: 24)
+//                            }
+//                            .padding(.vertical, 14)
+//                            .padding(.horizontal, 32)
+//                            .background(Color(.systemGray6))
+//                            .cornerRadius(8)
                         }
                         VStack(alignment: .leading, spacing: 8) {
                             Text(isLoginMode ? "if you don't have an account" : "")
@@ -212,8 +241,14 @@ struct ContentView: View {
             
         }
         .navigationViewStyle(StackNavigationViewStyle ())
+        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil){
+            //Text("Text here")
+            ImagePicker(image: $image)
+        }
         
     }
+
+//*******************************************************************************************************************
     private func handleAction(){
         if isLoginMode{
             
@@ -222,31 +257,116 @@ struct ContentView: View {
             CreateNewAccount()
         }
     }
+//*******************************************************************************************************************
     @State var loginStatusMessage = " "
+    @State var image: UIImage?
+//*******************************************************************************************************************
     private func CreateNewAccount(){ //Create a brand new Firebase Account
     
-        FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { result, error in
-            if let error {
-                print("Error creating a new user: \(error.localizedDescription)")
-                self.loginStatusMessage = "Error creating a new user: \(error)"
-                return
-            }
-            print("User created successfully: \(result?.user.uid ?? " ") ")
-            self.loginStatusMessage = "User created successfully: \(result?.user.uid ?? " ")"
-        } 
+        guard !email.isEmpty, !password.isEmpty else {
+                    loginStatusMessage = "Email and password cannot be empty."
+                    return
+                }
+
+                FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { result, error in
+                    if let error = error {
+                        loginStatusMessage = "Error creating user: \(error.localizedDescription)"
+                        return
+                    }
+
+                    guard let uid = result?.user.uid else {
+                        loginStatusMessage = "Error: Failed to retrieve user ID."
+                        return
+                    }
+
+                    // If no image is provided, just save the user data
+                    guard let imageData = image?.jpegData(compressionQuality: 0.5) else {
+                        saveUserData(uid: uid, email: email, profilePictureURL: nil)
+                        return
+                    }
+
+                    // Upload the image to Cloudinary
+                    uploadToCloudinary(imageData: imageData, fileName: "\(uid).jpg") { result in
+                        switch result {
+                        case .success(let profilePictureURL):
+                            self.saveUserData(uid: uid, email: self.email, profilePictureURL: profilePictureURL)
+                        case .failure(let error):
+                            self.loginStatusMessage = "Error uploading image: \(error.localizedDescription)"
+                        }
+                    }
+                }
     }
-    private func loginUser(){
-        FirebaseManager.shared.auth.signIn(withEmail: email, password: password){result, error in
-            if let error {
-                print("Error signing in: \(error.localizedDescription)")
-                self.loginStatusMessage = "Error signing in: \(error)"
-                return
+//*******************************************************************************************************************
+    private func loginUser() {
+           guard !email.isEmpty, !password.isEmpty else {
+               loginStatusMessage = "Email and password cannot be empty."
+               return
+           }
+
+           FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { result, error in
+               if let error = error as NSError? {
+                   switch AuthErrorCode(rawValue: error.code) {
+                   case .invalidEmail:
+                       loginStatusMessage = "Invalid email address."
+                   case .wrongPassword:
+                       loginStatusMessage = "Incorrect password. Please try again."
+                   case .userNotFound:
+                       loginStatusMessage = "No account found for this email."
+                   case .emailAlreadyInUse:
+                       loginStatusMessage = "Email already in use. Try logging in instead."
+                   default:
+                       loginStatusMessage = "Error: \(error.localizedDescription)"
+                   }
+                   return
+               }
+               loginStatusMessage = "Welcome back, \(result?.user.email ?? "User")!"
+           }
+           }
+    
+//*******************************************************************************************************************
+//*******************************************************************************************************************
+    private func saveUserData(uid: String, email: String, profilePictureURL: String?) {
+         let db = Database.database().reference()
+         let userData = [
+             "email": email,
+             "profilePictureURL": profilePictureURL ?? ""
+         ]
+
+         db.child("users").child(uid).setValue(userData) { error, _ in
+             if let error = error {
+                 self.loginStatusMessage = "Error saving user data: \(error.localizedDescription)"
+             } else {
+                 self.loginStatusMessage = "Account created successfully!"
+             }
+         }
+     }
+    
+//*******************************************************************************************************************
+    private func signInWithGoogle() {
+       Task {
+         if await viewModel.signInWithGoogle() == true {
+           dismiss()
+         }
+       }
+     }
+//*******************************************************************************************************************
+    func saveUserData(uid: String, email: String, profilePictureURL: String, completion: @escaping (Bool) -> Void) {
+        let db = Database.database().reference()
+        let userData = [
+            "email": email,
+            "profilePictureURL": profilePictureURL
+        ]
+        db.child("users").child(uid).setValue(userData) { error, _ in
+            if let error = error {
+                print("Error saving user data: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("User data saved successfully!")
+                completion(true)
             }
-            print("User signed in successfully: \(result?.user.uid ?? " ") ")
-            self.loginStatusMessage = "User signed in successfully: \(result?.user.uid ?? " ")"
-            
         }
     }
+//*******************************************************************************************************************
 }
 
 #Preview {
