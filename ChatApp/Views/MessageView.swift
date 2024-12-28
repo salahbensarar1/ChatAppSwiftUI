@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MessageView: View {
+    @ObservedObject private var vm = MainMessagesViewModel()
     var body: some View {
         ScrollView{
             ForEach(0..<10, id: \.self){ num in
                 VStack{
                     HStack(spacing: 16){
+                        
+                        
                         Image(systemName: "person")
                             .font(.system(size: 32))
                             .padding(8)
