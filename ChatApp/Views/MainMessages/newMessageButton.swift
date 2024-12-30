@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct newMessageButton: View {
-    //@State var ShouldShowLogOutOptions = false
+    @State var ShouldShowNewMessageScreen = false
     var body: some View {
         
         Button{
-            print("New Message handled")
+            ShouldShowNewMessageScreen.toggle()
         
     }label: {
                 HStack{
@@ -28,6 +28,9 @@ struct newMessageButton: View {
                     .padding(.horizontal)
                     .shadow(radius: 15)
         
+    }
+    .fullScreenCover(isPresented: $ShouldShowNewMessageScreen, onDismiss: nil){
+        Text("New Message screen")
     }
     .navigationBarHidden(true)
 
