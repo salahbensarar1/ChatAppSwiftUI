@@ -29,6 +29,9 @@ struct ContentView: View {
     @State private var password = ""
     @State var shouldShowImagePicker = false
     @Environment(\.dismiss) var dismiss
+    
+    
+    let didCompleteLoginProcess: () -> ()
 //********************************************************************************************************
 
     
@@ -370,5 +373,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(didCompleteLoginProcess: {
+        
+    })
 }

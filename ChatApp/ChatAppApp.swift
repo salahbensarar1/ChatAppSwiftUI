@@ -13,7 +13,9 @@ struct ChatAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(didCompleteLoginProcess: {
+                
+            })
                 .environmentObject(authenticationViewModel) // Provide the AuthenticationViewModel
         }
     }

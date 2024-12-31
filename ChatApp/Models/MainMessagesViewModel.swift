@@ -11,10 +11,7 @@ import FirebaseDatabase
 
 
 //********************************************************************************************************************
-struct  ChatUser{
-    let uid,email,profilePictureURL: String
-    
-}
+
 
 
 //********************************************************************************************************************
@@ -35,10 +32,15 @@ class MainMessagesViewModel : ObservableObject{
 //*************************************************************************************
     init() {
         fetchCurrentUser()
+        
+        
+        DispatchQueue.main.async {
+            self.isUserLoggedOut = FirebaseManager.shared.auth.currentUser?.uid == nil
+        }
     }
 //*************************************************************************************
     
-    private func fetchCurrentUser() {
+     func fetchCurrentUser() {
         // Ensure the current user is logged in and has a valid UID
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {
             print("No current user UID found.")
