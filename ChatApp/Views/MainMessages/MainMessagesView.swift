@@ -19,7 +19,7 @@ struct MainMessagesView: View {
                 MessageView()
                 
                 NavigationLink("", isActive: $ShouldNavigateToChatView){
-                    Text("Chat View")
+                    ChatLogView(chatUser: self.chatUser)
                 }
              
                 
