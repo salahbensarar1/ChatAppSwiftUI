@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct MessageChatView: View {
+    @ObservedObject var vm: ChatLogViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            ForEach(vm.chatMessages) { message in
+                HStack{
+                    Spacer()
+                    HStack{
+                        Text(message.text)
+                            .foregroundStyle(Color(.darkGray))
+                            
+                    }
+                    .padding()
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.white, Color.purple.opacity(0.9)]),
+                            startPoint: .topTrailing,
+                            endPoint: .bottomLeading
+                        )
+                        .cornerRadius(8)
+                    )
+                    .cornerRadius(10)
+                }.padding(.horizontal)
+                    .padding(.top, 8)
+            }
+            HStack{ Spacer()}
+        }
+        .background(Color(.init(white: 0.91, alpha: 1)))
     }
-}
-
-#Preview {
-    MessageChatView()
 }

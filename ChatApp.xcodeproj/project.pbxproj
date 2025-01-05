@@ -14,6 +14,9 @@
 		627813952D16CA5D0046E4DA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 627813942D16CA5D0046E4DA /* SDWebImageSwiftUI */; };
 		62D5ABDD2CEE068700F5A19E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 62D5ABDC2CEE068700F5A19E /* FirebaseAuth */; };
 		62D5ABDF2CEE068700F5A19E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 62D5ABDE2CEE068700F5A19E /* FirebaseStorage */; };
+		62FB1A8E2D29351E00286604 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 62FB1A8D2D29351E00286604 /* FirebaseFirestore */; };
+		62FB1A902D2935C800286604 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 62FB1A8F2D2935C800286604 /* FirebaseFirestoreCombine-Community */; };
+		62FB1A922D29375100286604 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62FB1A912D29375100286604 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +40,7 @@
 		622D0ADD2CDBA0DC00AAF778 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		622D0AED2CDBA0DE00AAF778 /* ChatAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		622D0AF72CDBA0DE00AAF778 /* ChatAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		62FB1A912D29375100286604 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,8 +74,10 @@
 				627813952D16CA5D0046E4DA /* SDWebImageSwiftUI in Frameworks */,
 				624CAF502D10D109008001B4 /* FirebaseDatabase in Frameworks */,
 				62D5ABDD2CEE068700F5A19E /* FirebaseAuth in Frameworks */,
+				62FB1A902D2935C800286604 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				62D5ABDF2CEE068700F5A19E /* FirebaseStorage in Frameworks */,
 				624CAF4A2D10D048008001B4 /* GoogleSignIn in Frameworks */,
+				62FB1A8E2D29351E00286604 /* FirebaseFirestore in Frameworks */,
 				624CAF4E2D10D109008001B4 /* FirebaseAnalytics in Frameworks */,
 				624CAF4C2D10D048008001B4 /* GoogleSignInSwift in Frameworks */,
 			);
@@ -102,6 +108,7 @@
 				622D0AF02CDBA0DE00AAF778 /* ChatAppTests */,
 				622D0AFA2CDBA0DE00AAF778 /* ChatAppUITests */,
 				622D0ADE2CDBA0DC00AAF778 /* Products */,
+				62FB1A912D29375100286604 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +150,8 @@
 				624CAF4D2D10D109008001B4 /* FirebaseAnalytics */,
 				624CAF4F2D10D109008001B4 /* FirebaseDatabase */,
 				627813942D16CA5D0046E4DA /* SDWebImageSwiftUI */,
+				62FB1A8D2D29351E00286604 /* FirebaseFirestore */,
+				62FB1A8F2D2935C800286604 /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = ChatApp;
 			productReference = 622D0ADD2CDBA0DC00AAF778 /* ChatApp.app */;
@@ -248,6 +257,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62FB1A922D29375100286604 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +663,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 62301C192CED265A008FDCA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		62FB1A8D2D29351E00286604 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62301C192CED265A008FDCA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		62FB1A8F2D2935C800286604 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62301C192CED265A008FDCA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

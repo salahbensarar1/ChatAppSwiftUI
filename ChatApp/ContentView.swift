@@ -4,14 +4,17 @@ import Firebase
 import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
+import FirebaseFirestore
 import GoogleSignInSwift
 //Basically this is the login view  with some methods for sign In with google, Uploead pics to cloudinary and then save it to database
 
 class FirebaseManager: NSObject {
     let auth: Auth
     static let shared = FirebaseManager()
+    
+    let firestore: Firestore
     override init() {
-        
+        self.firestore = Firestore.firestore() 
         self.auth = Auth.auth()
         super.init()
     }
