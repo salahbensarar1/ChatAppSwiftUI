@@ -12,27 +12,48 @@ struct MessageChatView: View {
     var body: some View {
         ScrollView {
             ForEach(vm.chatMessages) { message in
-                HStack{
-                    Spacer()
-                    HStack{
-                        Text(message.text)
-                            .foregroundStyle(Color(.white))
-                            
+                VStack{
+                    if message.fromId == FirebaseManager.shared.auth.currentUser?.uid{
+                        HStack{
+                            Spacer()
+                            HStack{
+                                Text(message.text)
+                                    .foregroundStyle(Color(.white))
+                                    
+                            }
+                            .padding()
+                            .background(
+                                
+        //                        LinearGradient(
+        //                            gradient: Gradient(colors: [Color.white, Color.purple.opacity(0.9)]),
+        //                            startPoint: .topTrailing,
+        //                            endPoint: .bottomLeading
+        //                        )
+                                Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255)
+                                .cornerRadius(18)
+                            )
+                            .cornerRadius(10)
+                        }.padding(.horizontal)
+                            .padding(.top, 8)
+                    } else {
+                        HStack{
+                            Spacer()
+                            HStack{
+                                Text(message.text)
+                                    .foregroundStyle(Color(.black))
+                                    
+                            }
+                            .padding()
+                            .background(
+                                Color(.white)
+                                .cornerRadius(18)
+                            )
+                            .cornerRadius(10)
+                        }.padding(.horizontal)
+                            .padding(.top, 8)
                     }
-                    .padding()
-                    .background(
-                        
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.white, Color.purple.opacity(0.9)]),
-//                            startPoint: .topTrailing,
-//                            endPoint: .bottomLeading
-//                        )
-                        Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255)
-                        .cornerRadius(18)
-                    )
-                    .cornerRadius(10)
-                }.padding(.horizontal)
-                    .padding(.top, 8)
+                }
+             
             }
             HStack{ Spacer()}
         }

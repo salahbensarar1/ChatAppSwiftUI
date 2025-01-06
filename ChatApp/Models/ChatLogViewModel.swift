@@ -44,6 +44,7 @@ class ChatLogViewModel : ObservableObject {
             .collection("messages")
             .document(fromId)
             .collection(toId)
+            .order(by: "timestamp")
             .addSnapshotListener{querySnapshot, error in
                 if let error = error {
                     print(error)
