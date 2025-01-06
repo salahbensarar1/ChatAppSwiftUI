@@ -21,10 +21,5 @@ jobs:
         with:
           xcode-version: '16.1.0' # Use a supported Xcode version
 
-      - name: Install CocoaPods dependencies
-        run: |
-          pod install
-          pod repo update
-
       - name: Build app
-        run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' build
+        run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 pro' build
