@@ -19,10 +19,12 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.1' # Latest stable version available on GitHub Actions
+          xcode-version: '14.2' # Use a supported Xcode version
 
-      - name: Install dependencies
-        run: swift package resolve
+      - name: Install CocoaPods dependencies
+        run: |
+          pod install
+          pod repo update
 
       - name: Build app
         run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' build
