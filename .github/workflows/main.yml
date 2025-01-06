@@ -19,7 +19,7 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.1.0' # Use a supported Xcode version
+          xcode-version: '16.1.0' # Latest stable version on GitHub Actions
 
       - name: Build app
-        run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16 pro' build
+        run: xcodebuild -project ChatApp.xcodeproj -scheme ChatApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16 pro' build
