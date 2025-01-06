@@ -17,7 +17,7 @@ struct BottomBarView: View {
         {
             Image(systemName: "photo.on.rectangle.angled")
                 .font(.system(size: 27))
-                .foregroundStyle(Color(.purple))
+                .foregroundStyle(Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255))
             //Text("A text message to show the message conntent")
             TextField("Description", text: $vm.chatText)
             Button{
@@ -26,7 +26,7 @@ struct BottomBarView: View {
             }label: {
                 Image(systemName: "paperplane.circle.fill")
                     .font(.system(size: 32))
-                    .foregroundStyle(Color(.purple))
+                    .foregroundStyle(Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255))
                
                     
             }
