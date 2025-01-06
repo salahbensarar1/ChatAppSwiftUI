@@ -19,7 +19,7 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '14.2' # Latest stable version available on GitHub Actions
+          xcode-version: '16.1' # Latest stable version available on GitHub Actions
 
       - name: Install dependencies
         run: swift package resolve
