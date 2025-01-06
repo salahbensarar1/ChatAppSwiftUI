@@ -22,4 +22,4 @@ jobs:
           xcode-version: '16.1.0' # Use a supported Xcode version
 
       - name: Build app
-        run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14 pro' build
+        run: xcodebuild -workspace ChatAppSwiftUI.xcworkspace -scheme ChatAppSwiftUI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16 pro' build
