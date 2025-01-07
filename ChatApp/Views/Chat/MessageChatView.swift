@@ -11,59 +11,68 @@ struct MessageChatView: View {
     @ObservedObject var vm: ChatLogViewModel
     var body: some View {
         ScrollView {
-            ForEach(vm.chatMessages) { message in
+            ScrollViewReader{ scrollviewproxy in
                 VStack{
-                    if message.fromId == FirebaseManager.shared.auth.currentUser?.uid{
-                        HStack{
-                            Spacer()
-                            HStack{
-                                Text(message.text)
-                                    .foregroundStyle(Color(.white))
-                                    
+                    ForEach(vm.chatMessages) { message in
+                        VStack{
+                            if message.fromId == FirebaseManager.shared.auth.currentUser?.uid{
+                                HStack{
+                                    Spacer()
+                                    HStack{
+                                        Text(message.text)
+                                            .foregroundStyle(Color(.white))
+                                            
+                                    }
+                                    .padding()
+                                    .background(
+                                        
+                //                        LinearGradient(
+                //                            gradient: Gradient(colors: [Color.white, Color.purple.opacity(0.9)]),
+                //                            startPoint: .topTrailing,
+                //                            endPoint: .bottomLeading
+                //                        )
+                                        Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255)
+                                        .cornerRadius(18)
+                                    )
+                                    .cornerRadius(10)
+                                }
+                            } else {
+                                HStack{
+                                    HStack{
+                                        Text(message.text)
+                                            .foregroundStyle(Color(.black))
+                                            
+                                    }
+                                    .padding()
+                                    .background(
+                                        Color(.white)
+                                    )
+                                    .cornerRadius(10)
+                                    Spacer()
+                                }
                             }
-                            .padding()
-                            .background(
-                                
-        //                        LinearGradient(
-        //                            gradient: Gradient(colors: [Color.white, Color.purple.opacity(0.9)]),
-        //                            startPoint: .topTrailing,
-        //                            endPoint: .bottomLeading
-        //                        )
-                                Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255)
-                                .cornerRadius(18)
-                            )
-                            .cornerRadius(10)
                         }.padding(.horizontal)
                             .padding(.top, 8)
-                    } else {
-                        HStack{
-                            Spacer()
-                            HStack{
-                                Text(message.text)
-                                    .foregroundStyle(Color(.black))
-                                    
-                            }
-                            .padding()
-                            .background(
-                                Color(.white)
-                                .cornerRadius(18)
-                            )
-                            .cornerRadius(10)
-                        }.padding(.horizontal)
-                            .padding(.top, 8)
+                      
                     }
+                    HStack{ Spacer()}
+                        .id("Empty")
                 }
-             
+                .onReceive(vm.$count){ _ in
+                    scrollviewproxy.scrollTo("Empty", anchor: .bottom)
             }
-            HStack{ Spacer()}
+          
+                    
+                }
         }
         .background(
 //            Color(red: 81 / 255, green: 68 / 255, blue: 172 / 255)
             LinearGradient(
-            gradient: Gradient(colors: [Color.white, Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255).opacity(0.9)]),
-            startPoint: .leading,
-            endPoint: .bottomTrailing
-        )
+                                   gradient: Gradient(colors: [Color.white,
+                                                                Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255).opacity(1.2)]),
+                                   startPoint: .trailing,
+                                   endPoint: .bottomLeading
+                               )
         )
     }
 }

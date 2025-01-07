@@ -25,7 +25,7 @@ struct MessageView: View {
                                 .font(.system(size: 32))
                                 .padding(8)
                                 .overlay(RoundedRectangle(cornerRadius: 44)
-                                    .stroke(Color.black,
+                                    .stroke(Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255),
                                            lineWidth: 1))
                                 
                             VStack(alignment: .leading){
@@ -44,11 +44,17 @@ struct MessageView: View {
                             .padding(.vertical, 8)
                         
                     }
-                    
+//                    LinearGradient(
+//                                           gradient: Gradient(colors: [Color.white,
+//                                                                        Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255).opacity(1.2)]),
+//                                           startPoint: .trailing,
+//                                           endPoint: .bottomLeading
+//                                       )
                  
                 }.padding(.horizontal)
             
             }.padding(.bottom, 50)
+           
         }
     }
 }

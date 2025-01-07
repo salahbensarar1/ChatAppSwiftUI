@@ -24,7 +24,12 @@ struct newMessageButton: View {
             }
             .foregroundColor(.white)
             .padding(.vertical)
-            .background(Color.blue)
+            .background(LinearGradient(
+                gradient: Gradient(colors: [Color.white,
+                                             Color(red: 88 / 255, green: 76 / 255, blue: 215 / 255).opacity(1.2)]),
+                startPoint: .trailing,
+                endPoint: .bottomLeading
+            ))
             .cornerRadius(24)
             .padding(.horizontal)
             .shadow(radius: 15)

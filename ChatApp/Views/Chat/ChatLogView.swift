@@ -15,9 +15,11 @@ struct ChatLogView: View {
 //****************************************************
 let chatUser: ChatUser?
     @ObservedObject var vm: ChatLogViewModel
+    
     init(chatUser: ChatUser?){
         self.chatUser = chatUser
         self.vm = .init(chatUser: chatUser)
+        
     }
 
 //****************************************************
@@ -31,6 +33,12 @@ let chatUser: ChatUser?
        
         .navigationTitle(chatUser?.email ?? "")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: Button(action: {
+                vm.count += 1
+            }, label: {
+                Text("Waah \(vm.count)")
+            }))
+        
         
     }
 }

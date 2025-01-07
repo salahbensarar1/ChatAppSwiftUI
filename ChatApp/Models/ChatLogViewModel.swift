@@ -30,12 +30,14 @@ struct ChatMessage : Identifiable{
 //*************************************************************************
 class ChatLogViewModel : ObservableObject {
     @Published var chatText = ""
+    @Published var count = 0
     let chatUser : ChatUser?
     @Published var chatMessages  = [ChatMessage]()
     //*************************************************************************
     init(chatUser: ChatUser?) {
         self.chatUser = chatUser
         fetchMessages()
+        //self.count += 1
     }
     private func fetchMessages(){
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return  } // So here we are saving the id of the current user or who ll send a message to facilitate storing the chat between 2 users by their 2 IDS
