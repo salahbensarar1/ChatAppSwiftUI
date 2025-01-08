@@ -59,7 +59,11 @@ struct MessageChatView: View {
                         .id("Empty")
                 }
                 .onReceive(vm.$count){ _ in
-                    scrollviewproxy.scrollTo("Empty", anchor: .bottom)
+                    withAnimation (.easeInOut(duration: 0.5)){
+                        
+                        
+                        scrollviewproxy.scrollTo("Empty", anchor: .bottom)
+                    }
             }
           
                     
